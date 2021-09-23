@@ -9,7 +9,7 @@
 		{$connected ? 'connected' : 'not connected'}
 	</p>
 	<input type="text" placeholder="join room" autofocus on:keypress={e=>{
-		if(e.key=='Enter'){
+		if(e.key=='Enter' && e.target.value) {
 			join(e.target.value)
 		}
 	}}>

@@ -32,7 +32,7 @@ io.on("connection", socket => {
 	function groupUpdate() {
 		io.in(user.room).emit(
 			"groupStateUpdate",
-			Array.from(rooms[user.room].users)
+			Array.from(rooms[user.room]?.users || [])
 		);
 	}
 	function roomUpdate() {
@@ -78,6 +78,11 @@ io.on("connection", socket => {
 	}
 	userUpdate();
 	socket.on("joinRoom", room => {
+		if (!room) {
+			socket.emit("roomJoinFailure", "No room specified");
+			console.error(`${socket.id}: no room specified`);
+			return;
+		}
 		if (user.room) {
 			leaveRoom();
 		}
